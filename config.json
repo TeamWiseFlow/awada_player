@@ -1,0 +1,15 @@
+{
+  "debug": "debug",
+  "api_ask": "http://127.0.0.1:3000/ask",
+  "wav_file_path": "./tmp/audio.wav",
+  "content": {
+    "steps": 4,
+    "caption_start": "按回车键开始",
+    "caption_wait": "请稍等..",
+    "flash_ask_start": "已进入政策咨询模式",
+    "flash_retry": "请重试",
+    "flash_no_answer": "抱歉，没有找到答案，请尝试其他问题",
+    "intro_text": "我们所在的小区<em>因为疫情原因而临时封控</em>，作为居民的我现在来到居委会强烈要求出小区，您作为居委会工作人员接待我。",
+    "idle_video_path": "./idle.mp4"
+  }
+}
