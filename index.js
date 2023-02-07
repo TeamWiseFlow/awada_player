@@ -3,6 +3,7 @@ const { app, BrowserWindow, ipcMain, Menu } = require('electron')
 const path = require('path')
 const { outputFile } = require('fs-extra')
 const { Buffer } = require('buffer')
+const fs = require('fs')
 
 // require('electron-reload')(__dirname)
 
@@ -35,7 +36,8 @@ const saveAudio = async (event, arrayBuffer) => {
   var buffer = Buffer.from(arrayBuffer)
 
   try {
-    let res = await outputFile(config.wav_file_path, buffer)
+    fs.writeFileSync(config.wav_file_path, buffer)
+    //let res = await outputFile(config.wav_file_path, buffer)
     return { error: '' }
   } catch (err) {
     console.log('ERROR', err)
