@@ -143,10 +143,10 @@ document.addEventListener('alpine:init', () => {
           that.captionText = ''
           that.showFlashText(window.config.content['flash_no_answer'])
         } else if (flag == 2) {
-          that.captionText = data.content[0].text
+          that.captionText = data.contents[0].text
         } else if (flag == 0) {
-          that.captionText = data.content[0].text
-          that.audioURL = data.content[0].voice
+          that.captionText = data.contents[0].text
+          that.audioURL = data.contents[0].voice
           that.playlist = data.playlist
 
           // start playing
