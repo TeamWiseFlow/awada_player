@@ -11,6 +11,10 @@ let mainWindow
 let config = require('./config.json')
 console.log('CONFIG', JSON.stringify(config, '', 4))
 console.log('PLATFORM', process.platform)
+console.log('PROJECT_DIR', process.env.PROJECT_DIR)
+
+let dir = process.env.PROJECT_DIR || './'
+config.wav_file_path = dir + config.wav_file_path
 
 if (config.debug) require('./api-mock')
 

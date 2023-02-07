@@ -1,7 +1,7 @@
 {
   "debug": "debug",
   "api_ask": "http://127.0.0.1:3000/ask",
-  "wav_file_path": "./tmp/audio.wav",
+  "wav_file_path": "tmp/audio.wav",
   "content": {
     "steps": 4,
     "caption_start": "按回车键开始",
