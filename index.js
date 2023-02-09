@@ -19,7 +19,7 @@ let dir = process.env.PROJECT_DIR || './'
 config.wav_file_path = dir + config.wav_file_path
 config.api_ask = process.env.API_ASK || config.api_ask
 
-if (config.debug) require('./api-mock')
+// if (config.debug) require('./api-mock')
 
 const getConfig = () => {
   return config

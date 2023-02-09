@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "electron .",
-    "linfen": "set API_ASK=http://127.0.0.1:8000/api/ai/v1/scholar/ask&&set  PROJECT_DIR=/home/dsw/midplatform/linfen/avatarUI/&&electron .",
+    "linfen": "API_ASK=http://127.0.0.1:8000/api/ai/v1/scholar/ask  PROJECT_DIR=/home/dsw/midplatform/linfen/avatarUI/ electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

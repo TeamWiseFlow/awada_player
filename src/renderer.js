@@ -132,7 +132,7 @@ document.addEventListener('alpine:init', () => {
       let path = window.config.wav_file_path
 
       // TEST
-      // path = '/home/dsw/player/assets/test.wav'
+      path = '/home/dsw/player/assets/test.wav'
 
       _post(window.config.api_ask, {
         user_id: 'local-koisk',
