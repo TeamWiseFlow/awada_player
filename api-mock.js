@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
+const fs = require('fs')
+const txt = fs.readFileSync('./assets/test.txt', 'utf8')
 
 app.use(bodyParser.json())
 
@@ -14,7 +16,7 @@ app.post('/ask', (req, res) => {
   flag = 2
 
   if (flag == 2) {
-    contents.push({ text: '以下供您参考：\n\n参考答案1\n参考答案2\n参考答案3' })
+    contents.push({ text: txt })
   } else if (flag == 0) {
     contents.push({ text: '答案描述', voice: '../tmp/voice.wav' })
     playlist.push('../tmp/2s.mp4', '../tmp/5s.mp4', '../tmp/1s.mp4')

@@ -40,6 +40,7 @@ document.addEventListener('alpine:init', () => {
       return this.cachingURL
     },
     captionText: '',
+    resultText: '',
     flashText: '',
     flashTextVisible: false,
     async init() {
@@ -56,6 +57,7 @@ document.addEventListener('alpine:init', () => {
       if (!this.recording) {
         this.recording = true
         this.captionText = ''
+        this.resultText = ''
         await _startRecord()
       }
     },
@@ -149,7 +151,8 @@ document.addEventListener('alpine:init', () => {
           that.playhead = 0
           // that.showFlashText(window.config.content['flash_no_answer'])
         } else if (flag == 2) {
-          that.captionText = contents[0].text
+          that.resultText = contents[0].text
+          that.captionText = ''
         } else if (flag == 0) {
           that.captionText = contents[0].text
           that.audioURL = contents[0].voice
