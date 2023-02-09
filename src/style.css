@@ -77,11 +77,12 @@ em {
   right: 0;
   font-size: 30px;
   text-align: center;
+  white-space: pre-line;
 }
-#caption-text p {
-  padding: 5px;
-  border-radius: 3px;
+#caption-text {
   text-align: center;
-  background: rgba(0, 0, 0, 0.5);
-  margin: 3px;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }

@@ -2,7 +2,7 @@
 const { app, BrowserWindow, ipcMain, Menu } = require('electron')
 const path = require('path')
 const { outputFile } = require('fs-extra')
-const { Buffer } = require('buffer')
+// const { Buffer } = require('buffer')
 const fs = require('fs')
 
 // require('electron-reload')(__dirname)
@@ -13,9 +13,11 @@ let config = require('./config.json')
 console.log('CONFIG', JSON.stringify(config, '', 4))
 console.log('PLATFORM', process.platform)
 console.log('PROJECT_DIR', process.env.PROJECT_DIR)
+console.log('API_ASK', process.env.API_ASK)
 
 let dir = process.env.PROJECT_DIR || './'
 config.wav_file_path = dir + config.wav_file_path
+config.api_ask = process.env.API_ASK || config.api_ask
 
 if (config.debug) require('./api-mock')
 
@@ -32,7 +34,7 @@ const getFilename = (event, url) => {
 }
 
 const saveAudio = async (event, arrayBuffer) => {
-  console.log('saveAudio', arrayBuffer.length)
+  console.log('saveAudio', arrayBuffer.byteLength)
   var buffer = Buffer.from(arrayBuffer)
 
   try {

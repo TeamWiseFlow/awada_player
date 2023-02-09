@@ -8,22 +8,22 @@
         <script defer src="../libs/alpine.min.js"></script>
     </head>
     <body x-data="app">
-        <div class="hide" @keyup.escape.window="exit" @keyup.space.window="onSpaceKey"></div>
+        <div class="hide" @keyup.escape.window="exit" @keydown.space.window="onSpaceKeyDown" @keyup.space.window="onSpaceKeyUp"></div>
         <audio id="voice-audio" x-ref="voice-audio" autoplay :src="audioURL" @ended="audioEnded" x-init="$watch('audioURL', () => $el.load())"></audio>
         <video id="idle-video" width="100%" height="100%" autoplay loop muted src="../assets/idle.mp4"></video>
-        <video id="video-1" x-ref="video-1" width="100%" height="100%" :src="video1url" x-show="playing" @canplay="videoLoaded" @ended="videoEnded" preload x-init="$watch('video1url', () => $el.currentTime = 0.5 )"></video>
-        <video id="video-2" x-ref="video-2" width="100%" height="100%" :src="video2url" x-show="playing" @canplay="videoLoaded" @ended="videoEnded" preload x-init="$watch('video2url', () => $el.currentTime = 0.5 )"></video>
+        <video id="video-1" x-ref="video-1" width="100%" height="100%" :src="video1url" x-show="playing" @canplay="videoLoaded" @ended="videoEnded" preload x-init="$watch('video1url', () => $el.currentTime = 0.1 )"></video>
+        <video id="video-2" x-ref="video-2" width="100%" height="100%" :src="video2url" x-show="playing" @canplay="videoLoaded" @ended="videoEnded" preload x-init="$watch('video2url', () => $el.currentTime = 0.1 )"></video>
 
         <!-- 全屏UI图层 -->
         <div class="content">
             <div id='btn-record' x-show="canRecord"></div>
             <div id='btn-record-stop' x-show="recording"></div>
-            <div id="caption-text" x-html="captionText"></div>
+            <div id="caption-text" x-html="captionText" x-show="captionText"></div>
             <div id="flash-text" x-text="flashText" x-data x-show="flashTextVisible" x-transition></div>
         </div>
 
-        <script src="../libs/getusermedia.bundle.js"></script>
-        <script src="../libs/hark.bundle.js"></script>
+        <!--script src="../libs/getusermedia.bundle.js"></script>
+        <script src="../libs/hark.bundle.js"></script-->
         <script src="../libs/recordrtc.js"></script>
 
         <script src="./renderer.js"></script>

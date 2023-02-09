@@ -1,15 +1,20 @@
 {
   "debug": "debug",
-  "api_ask": "http://127.0.0.1:8000/api/ai/v1/scholar/ask",
+  "api_ask": "http://127.0.0.1:3000/ask",
   "wav_file_path": "audio.wav",
   "content": {
     "steps": 4,
-    "caption_start": "按回车键开始",
+    "caption_start": "长按空格键录音，松开结束录音",
     "caption_wait": "请稍等..",
     "flash_ask_start": "已进入政策咨询模式",
-    "flash_retry": "请重试",
-    "flash_no_answer": "抱歉，没有找到答案，请尝试其他问题",
+
     "intro_text": "我们所在的小区<em>因为疫情原因而临时封控</em>，作为居民的我现在来到居委会强烈要求出小区，您作为居委会工作人员接待我。",
-    "idle_video_path": "./idle.mp4"
+
+    "caption_retry": "没听清呢，请您再说一遍",
+    "caption_no_answer": "抱歉，没有在知识库中找到相关信息，请您换个问题吧",
+    "video_idle": "idle.mp4",
+    "video_retry": "抱歉.mp4",
+    "video_no_answer": "没有在知识库.mp4",
+    "video_more": "找到如下参考.mp4"
   }
 }

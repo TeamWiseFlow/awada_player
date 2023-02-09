@@ -9,20 +9,20 @@ app.post('/ask', (req, res) => {
   console.log(data)
 
   let flag = Math.floor(4 * Math.random()) - 1 // -1, 2
-  let content = []
+  let contents = []
   let playlist = []
-  flag = 0
+  flag = 2
 
   if (flag == 2) {
-    content.push({ text: '参考答案1<br/>参考答案2<br/>参考答案3' })
+    contents.push({ text: '以下供您参考：\n\n参考答案1\n参考答案2\n参考答案3' })
   } else if (flag == 0) {
-    content.push({ text: '答案描述', voice: '../tmp/voice.wav' })
+    contents.push({ text: '答案描述', voice: '../tmp/voice.wav' })
     playlist.push('../tmp/2s.mp4', '../tmp/5s.mp4', '../tmp/1s.mp4')
   }
 
   res.send({
     flag,
-    content,
+    contents,
     playlist,
   })
 })

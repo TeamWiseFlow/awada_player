@@ -4,15 +4,11 @@ document.addEventListener('alpine:init', () => {
     recording: false,
     requesting: false,
     playing: false,
-
     audioURL: '',
-
     playlist: [],
     playhead: -1, // playing index in playlist
-
     playingEl: null,
     cachingEl: null,
-
     get playingURL() {
       return this.playlist.length > 0 && this.playhead >= 0
         ? this.playlist[this.playhead]
@@ -43,7 +39,6 @@ document.addEventListener('alpine:init', () => {
       }
       return this.cachingURL
     },
-
     captionText: '',
     flashText: '',
     flashTextVisible: false,
@@ -56,14 +51,17 @@ document.addEventListener('alpine:init', () => {
       this.captionText = window.config.content['caption_start']
       this.canRecord = true
     },
-    async onSpaceKey() {
+    async onSpaceKeyDown() {
       if (!this.canRecord) return
-
       if (!this.recording) {
         this.recording = true
         this.captionText = ''
-        await _record()
-      } else {
+        await _startRecord()
+      }
+    },
+    async onSpaceKeyUp() {
+      if (!this.canRecord) return
+      if (this.recording) {
         this.recording = false
         this.captionText = window.config.content['caption_wait']
         await _stopRecord()
@@ -129,25 +127,33 @@ document.addEventListener('alpine:init', () => {
     askRemote() {
       this.requesting = true
       let that = this
+      let path = window.config.wav_file_path
+
+      // TEST
+      // path = '/home/dsw/player/assets/test.wav'
+
       _post(window.config.api_ask, {
         user_id: 'local-koisk',
         type: 'voice',
-        content: window.config.wav_file_path,
+        content: path,
       }).then(data => {
         this.requesting = false
-        console.log(data)
-        const { flag, content, playlist } = data
-        //{"flag":int, "contents":[{"text":text, "voice":dir}], "playlist":[[dirs]]}
+        //console.log(data)
+        const { flag, contents, playlist } = data
         if (flag == 1) {
           // no answer
-          that.captionText = ''
-          that.showFlashText(window.config.content['flash_no_answer'])
+          that.captionText = config.content['caption_no_answer']
+          that.playlist = ['../assets/' + config.content['video_no_answer']]
+          that.playingEl = that.$refs['video-2']
+          that.cachingEl = that.$refs['video-1']
+          that.playhead = 0
+          // that.showFlashText(window.config.content['flash_no_answer'])
         } else if (flag == 2) {
-          that.captionText = data.contents[0].text
+          that.captionText = contents[0].text
         } else if (flag == 0) {
-          that.captionText = data.contents[0].text
-          that.audioURL = data.contents[0].voice
-          that.playlist = data.playlist
+          that.captionText = contents[0].text
+          that.audioURL = contents[0].voice
+          that.playlist = playlist
 
           // start playing
           that.playingEl = that.$refs['video-2']
@@ -155,9 +161,12 @@ document.addEventListener('alpine:init', () => {
           that.playhead = 0
         } else {
           // errors
-          console.error('FLAG:' + flag)
-          that.captionText = ''
-          that.showFlashText(window.config.content['flash_retry'])
+          that.captionText = config.content['caption_retry']
+          that.playlist = ['../assets/' + config.content['video_retry']]
+          that.playingEl = that.$refs['video-2']
+          that.cachingEl = that.$refs['video-1']
+          that.playhead = 0
+          // that.showFlashText(window.config.content['flash_retry'])
         }
       })
     },
@@ -166,43 +175,7 @@ document.addEventListener('alpine:init', () => {
 
 let recorder
 
-document.addEventListener('DOMContentLoaded', async () => {
-  try {
-    // let stream = await navigator.mediaDevices.getUserMedia({
-    //   video: false,
-    //   audio: true,
-    // })
-    // recorder = new RecordRTCPromisesHandler(stream, {
-    //   type: 'audio',
-    //   recorderType: RecordRTC.StereoAudioRecorder,
-    // })
-    // let recorded = false
-    // var options = {
-    //   threshold: -70,
-    // }
-    // var speechEvents = hark(stream, options)
-    // speechEvents.on('speaking', function () {
-    //   console.log('speaking')
-    //   if (!recorded) {
-    //     recorder.startRecording()
-    //   }
-    // })
-    // speechEvents.on('stopped_speaking', async function () {
-    //   console.log('stopped_speaking')
-    //   if (!recorded) {
-    //     recorded = true
-    //     await recorder.stopRecording()
-    //     let blob = await recorder.getBlob()
-    //     let buffer = await new Response(blob).arrayBuffer()
-    //     node.saveAudio(buffer)
-    //   }
-    // })
-  } catch (e) {
-    console.log('ERROR init RecordRTC', e)
-  }
-})
-
-const _record = async () => {
+const _startRecord = async () => {
   try {
     let stream = await navigator.mediaDevices.getUserMedia({
       video: false,
@@ -221,8 +194,11 @@ const _record = async () => {
 const _stopRecord = async () => {
   await recorder.stopRecording()
   let blob = await recorder.getBlob()
-  let buffer = await new Response(blob).arrayBuffer()
-  node.saveAudio(buffer)
+  console.log('blob type', blob.type)
+  //console.log('blob arrayBuffer', await blob.arrayBuffer())
+  //let buffer = await new Response(blob).arrayBuffer()
+  //node.saveAudio(buffer)
+  node.saveAudio(await blob.arrayBuffer())
   recorder.destroy()
 }
 

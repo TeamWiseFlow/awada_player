@@ -5,15 +5,14 @@
   "main": "index.js",
   "scripts": {
     "start": "electron .",
+    "linfen": "set API_ASK=http://127.0.0.1:8000/api/ai/v1/scholar/ask&&set  PROJECT_DIR=/home/dsw/midplatform/linfen/avatarUI/&&electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "buffer": "^6.0.3",
-    "electron": "^22.2.0",
-    "fs-extra": "^11.1.0"
+    "electron": "^22.2.0"
   },
   "devDependencies": {
     "body-parser": "^1.20.1",
