@@ -48,7 +48,7 @@ document.addEventListener('alpine:init', () => {
       console.log('CONFIG', JSON.stringify(window.config, '', 2))
       await _waitFor(500)
       await this.showFlashText(window.config.content['flash_ask_start'])
-      this.canRecord = true
+
       this.captionText = window.config.content['caption_start']
       this.canRecord = true
     },
@@ -70,7 +70,28 @@ document.addEventListener('alpine:init', () => {
         this.askRemote()
       }
     },
-    skipAnswer() {},
+    async reset() {
+      console.log('reset..')
+      this.playing = false
+      this.captionText = window.config.content['caption_start']
+      this.canRecord = true
+      this.resultText = ''
+      this.flashText = ''
+      this.flashTextVisible = false
+      this.playhead = -1
+      this.playlist = []
+      this.playingEl = this.$refs['video-2']
+      this.cachingEl = this.$refs['video-1']
+      this.playingEl && this.playingEl.pause()
+      this.cachingEl && this.cachingEl.pause()
+
+      if (this.recording) {
+        this.recording = false
+        await _stopRecord()
+      }
+
+      _fetch_controller && _fetch_controller.abort()
+    },
     async showFlashText(text) {
       let can = this.canRecord
       this.canRecord = false
@@ -152,6 +173,10 @@ document.addEventListener('alpine:init', () => {
           // that.showFlashText(window.config.content['flash_no_answer'])
         } else if (flag == 2) {
           that.resultText = contents[0].text
+          that.playlist = ['../assets/' + config.content['video_more']]
+          that.playingEl = that.$refs['video-2']
+          that.cachingEl = that.$refs['video-1']
+          that.playhead = 0
           that.captionText = ''
         } else if (flag == 0) {
           that.captionText = contents[0].text
@@ -207,9 +232,15 @@ const _stopRecord = async () => {
 
 const _waitFor = delay => new Promise(resolve => setTimeout(resolve, delay))
 
+let _fetch_controller
+let _fetch_signal
+
 async function _post(url = '', data = {}) {
+  _fetch_controller = new AbortController()
+  _fetch_signal = _fetch_controller.signal
   // Default options are marked with *
   const response = await fetch(url, {
+    signal: _fetch_signal,
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
