@@ -1,7 +1,7 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, ipcMain, Menu } = require('electron')
 const path = require('path')
-const { outputFile } = require('fs-extra')
+// const { outputFile } = require('fs-extra')
 // const { Buffer } = require('buffer')
 const fs = require('fs')
 

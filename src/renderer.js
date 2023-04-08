@@ -70,6 +70,7 @@ document.addEventListener('alpine:init', () => {
         this.askRemote()
       }
     },
+
     async reset() {
       console.log('reset..')
       this.playing = false
@@ -178,7 +179,7 @@ document.addEventListener('alpine:init', () => {
           that.cachingEl = that.$refs['video-1']
           that.playhead = 0
           that.captionText = ''
-        } else if (flag == 0) {
+        } else if (flag == 0 && contents.length > 0) {
           that.captionText = contents[0].text
           that.audioURL = contents[0].voice
           that.playlist = playlist
@@ -187,6 +188,9 @@ document.addEventListener('alpine:init', () => {
           that.playingEl = that.$refs['video-2']
           that.cachingEl = that.$refs['video-1']
           that.playhead = 0
+        } else if (flag == 0 && contents.length == 0) {
+          that.captionText = config.content['caption_retry']
+          that._stopVideo()
         } else {
           // errors
           that.captionText = config.content['caption_retry']

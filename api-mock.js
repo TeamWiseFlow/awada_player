@@ -10,16 +10,18 @@ app.post('/ask', (req, res) => {
   const data = req.body
   console.log(data)
 
-  let flag = Math.floor(4 * Math.random()) - 1 // -1, 2
+  // {"flag":int, "contents":[{"text":text, "voice":dir}], "playlist":[[dirs]]}
   let contents = []
   let playlist = []
-  flag = 2
+  let flag = 0
 
   if (flag == 2) {
     contents.push({ text: txt })
   } else if (flag == 0) {
     contents.push({ text: '答案描述', voice: '../tmp/voice.wav' })
     playlist.push('../tmp/2s.mp4', '../tmp/5s.mp4', '../tmp/1s.mp4')
+
+    contents = []
   }
 
   res.send({
